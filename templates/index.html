@@ -46,13 +46,18 @@
         const context = canvas.getContext('2d');
         
         let currentFacingMode = 'user'; // Default to front camera
+        let stream = null;
 
-        function startCamera(facingMode) {
-            navigator.mediaDevices.getUserMedia({ video: { facingMode } })
-                .then(stream => {
-                    video.srcObject = stream;
-                })
-                .catch(err => console.error("Error accessing webcam:", err));
+        async function startCamera(facingMode) {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop()); // Stop existing stream
+            }
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode } });
+                video.srcObject = stream;
+            } catch (err) {
+                console.error("Error accessing webcam:", err);
+            }
         }
 
         flipButton.addEventListener('click', () => {
