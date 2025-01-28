@@ -1,0 +1,13 @@
+prefix=D:/project22/exam-code/venv/Library
+exec_prefix=D:/project22/exam-code/venv/Library
+libdir=D:/project22/exam-code/venv/Library/lib
+sharedlibdir=D:/project22/exam-code/venv/Library/lib
+includedir=D:/project22/exam-code/venv/Library/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.13
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
