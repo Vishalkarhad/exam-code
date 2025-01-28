@@ -3,5 +3,4 @@ google-auth
 requests
 python-dotenv  # (Optional) If using environment variables
 Flask
-base64
 gunicorn
