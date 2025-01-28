@@ -19,6 +19,7 @@
         }
         button {
             padding: 10px 20px;
+            margin: 5px;
             background-color: #007bff;
             color: white;
             border: none;
@@ -32,6 +33,7 @@
 <body>
     <video id="video" width="400" height="300" autoplay></video>
     <canvas id="canvas" width="400" height="300" style="display: none;"></canvas>
+    <button id="flip">Flip Camera</button>
     <button id="capture">Capture & Upload</button>
     <p id="response"></p>
 
@@ -39,13 +41,25 @@
         const video = document.getElementById('video');
         const canvas = document.getElementById('canvas');
         const captureButton = document.getElementById('capture');
+        const flipButton = document.getElementById('flip');
         const responseText = document.getElementById('response');
         const context = canvas.getContext('2d');
         
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => video.srcObject = stream)
-            .catch(err => console.error("Error accessing webcam:", err));
-        
+        let currentFacingMode = 'user'; // Default to front camera
+
+        function startCamera(facingMode) {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode } })
+                .then(stream => {
+                    video.srcObject = stream;
+                })
+                .catch(err => console.error("Error accessing webcam:", err));
+        }
+
+        flipButton.addEventListener('click', () => {
+            currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+            startCamera(currentFacingMode);
+        });
+
         captureButton.addEventListener('click', () => {
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
             canvas.toBlob(blob => {
@@ -61,6 +75,8 @@
                 .catch(error => console.error('Error:', error));
             }, 'image/jpeg');
         });
+
+        startCamera(currentFacingMode); // Start default camera on load
     </script>
 </body>
 </html>
