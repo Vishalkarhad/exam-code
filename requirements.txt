@@ -1,0 +1,8 @@
+google-generativeai
+google-auth
+requests
+python-dotenv  # (Optional) If using environment variables
+Flask
+os
+base64
+gunicorn
